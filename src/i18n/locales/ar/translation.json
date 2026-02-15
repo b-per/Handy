@@ -296,6 +296,14 @@
         "add": "إضافة",
         "remove": "إزالة {{word}}",
         "duplicate": "\"{{word}}\" موجود بالفعل"
+      },
+      "symbolMappings": {
+        "title": "Symbol Mappings",
+        "description": "Map spoken phrases to symbols. For example, saying \"hash sign\" will produce \"#\".",
+        "phrasePlaceholder": "Spoken phrase",
+        "symbolPlaceholder": "Symbol",
+        "add": "Add",
+        "remove": "Remove mapping for {{phrase}}"
       }
     },
     "postProcessing": {

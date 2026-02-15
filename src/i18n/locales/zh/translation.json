@@ -318,6 +318,14 @@
         "add": "添加",
         "remove": "删除 {{word}}",
         "duplicate": "\"{{word}}\" 已存在"
+      },
+      "symbolMappings": {
+        "title": "Symbol Mappings",
+        "description": "Map spoken phrases to symbols. For example, saying \"hash sign\" will produce \"#\".",
+        "phrasePlaceholder": "Spoken phrase",
+        "symbolPlaceholder": "Symbol",
+        "add": "Add",
+        "remove": "Remove mapping for {{phrase}}"
       }
     },
     "postProcessing": {
