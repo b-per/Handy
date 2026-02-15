@@ -1,4 +1,4 @@
-use crate::settings::SymbolMapping;
+use crate::settings::{AutoSubmitKey, SymbolMapping};
 use natural::phonetics::soundex;
 use once_cell::sync::Lazy;
 use regex::Regex;
@@ -220,6 +220,31 @@ pub fn apply_symbol_mappings(text: &str, mappings: &[SymbolMapping]) -> String {
         }
     }
     MULTI_SPACE_PATTERN.replace_all(&result, " ").to_string().trim().to_string()
+}
+
+/// Detects a spoken send trigger at the end of the text.
+/// Returns the cleaned text and an optional key to press.
+/// - "super send it" → Cmd+Enter
+/// - "send it" → Enter
+pub fn detect_send_trigger(text: &str) -> (String, Option<AutoSubmitKey>) {
+    let trimmed = text.trim();
+    // Strip trailing punctuation before matching (speech engines add periods, etc.)
+    let stripped = trimmed.trim_end_matches(|c: char| c.is_ascii_punctuation());
+    let lower = stripped.to_lowercase();
+    // Check longer phrase first to avoid partial match
+    if lower.ends_with("super send it") {
+        let clean = stripped[..stripped.len() - "super send it".len()]
+            .trim()
+            .trim_end_matches(|c: char| c.is_ascii_punctuation());
+        (clean.to_string(), Some(AutoSubmitKey::CmdEnter))
+    } else if lower.ends_with("send it") {
+        let clean = stripped[..stripped.len() - "send it".len()]
+            .trim()
+            .trim_end_matches(|c: char| c.is_ascii_punctuation());
+        (clean.to_string(), Some(AutoSubmitKey::Enter))
+    } else {
+        (trimmed.to_string(), None)
+    }
 }
 
 /// Filler words to remove from transcriptions
@@ -537,5 +562,47 @@ mod tests {
     fn test_apply_symbol_mappings_empty() {
         let result = apply_symbol_mappings("hello world", &[]);
         assert_eq!(result, "hello world");
+    }
+
+    #[test]
+    fn test_detect_send_trigger_send_it() {
+        let (text, key) = detect_send_trigger("hello world send it");
+        assert_eq!(text, "hello world");
+        assert_eq!(key, Some(AutoSubmitKey::Enter));
+    }
+
+    #[test]
+    fn test_detect_send_trigger_super_send_it() {
+        let (text, key) = detect_send_trigger("hello world super send it");
+        assert_eq!(text, "hello world");
+        assert_eq!(key, Some(AutoSubmitKey::CmdEnter));
+    }
+
+    #[test]
+    fn test_detect_send_trigger_case_insensitive() {
+        let (text, key) = detect_send_trigger("hello SEND IT");
+        assert_eq!(text, "hello");
+        assert_eq!(key, Some(AutoSubmitKey::Enter));
+    }
+
+    #[test]
+    fn test_detect_send_trigger_none() {
+        let (text, key) = detect_send_trigger("hello world");
+        assert_eq!(text, "hello world");
+        assert_eq!(key, None);
+    }
+
+    #[test]
+    fn test_detect_send_trigger_with_punctuation() {
+        let (text, key) = detect_send_trigger("Another test. Send it.");
+        assert_eq!(text, "Another test");
+        assert_eq!(key, Some(AutoSubmitKey::Enter));
+    }
+
+    #[test]
+    fn test_detect_send_trigger_super_with_punctuation() {
+        let (text, key) = detect_send_trigger("One, two, three, super send it.");
+        assert_eq!(text, "One, two, three");
+        assert_eq!(key, Some(AutoSubmitKey::CmdEnter));
     }
 }

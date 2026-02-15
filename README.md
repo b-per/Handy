@@ -6,6 +6,10 @@ Fork of [Handy](https://github.com/cjpais/Handy) with the following additions:
 
 User-configurable mappings from spoken phrases to symbols. For example, saying "hash sign" produces `#` and "at sign" produces `@`. Mappings are managed in Settings → Advanced → Transcription, right below Custom Words. Four default mappings are included ("hash sign", "hashsign", "at sign", "atsign"). When the mapped symbol is a special character (non-alphanumeric), trailing whitespace is consumed so that "at sign gofit" becomes `@gofit` rather than `@ gofit`.
 
+## Send Triggers
+
+Say "send it" at the end of your dictation to press Enter after pasting, or "super send it" to press Cmd+Enter. This works independently of the auto-submit setting — if you don't say either phrase, text is just pasted without pressing any key. Trailing punctuation added by the speech engine (e.g. periods) is handled automatically.
+
 ---
 
 *Everything below is from the original README.*
