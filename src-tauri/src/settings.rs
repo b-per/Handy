@@ -86,6 +86,12 @@ pub struct ShortcutBinding {
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, Type)]
+pub struct SymbolMapping {
+    pub phrase: String,
+    pub symbol: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone, Type)]
 pub struct LLMPrompt {
     pub id: String,
     pub name: String,
@@ -310,6 +316,8 @@ pub struct AppSettings {
     pub log_level: LogLevel,
     #[serde(default)]
     pub custom_words: Vec<String>,
+    #[serde(default = "default_symbol_mappings")]
+    pub symbol_mappings: Vec<SymbolMapping>,
     #[serde(default)]
     pub model_unload_timeout: ModelUnloadTimeout,
     #[serde(default = "default_word_correction_threshold")]
@@ -547,6 +555,15 @@ fn default_post_process_prompts() -> Vec<LLMPrompt> {
     }]
 }
 
+fn default_symbol_mappings() -> Vec<SymbolMapping> {
+    vec![
+        SymbolMapping { phrase: "hash sign".to_string(), symbol: "#".to_string() },
+        SymbolMapping { phrase: "hashsign".to_string(), symbol: "#".to_string() },
+        SymbolMapping { phrase: "at sign".to_string(), symbol: "@".to_string() },
+        SymbolMapping { phrase: "atsign".to_string(), symbol: "@".to_string() },
+    ]
+}
+
 fn default_typing_tool() -> TypingTool {
     TypingTool::Auto
 }
@@ -664,6 +681,7 @@ pub fn get_default_settings() -> AppSettings {
         debug_mode: false,
         log_level: default_log_level(),
         custom_words: Vec::new(),
+        symbol_mappings: default_symbol_mappings(),
         model_unload_timeout: ModelUnloadTimeout::Never,
         word_correction_threshold: default_word_correction_threshold(),
         history_limit: default_history_limit(),

@@ -1,3 +1,15 @@
+# Handy-Dev
+
+Fork of [Handy](https://github.com/cjpais/Handy) with the following additions:
+
+## Symbol Mappings
+
+User-configurable mappings from spoken phrases to symbols. For example, saying "hash sign" produces `#` and "at sign" produces `@`. Mappings are managed in Settings → Advanced → Transcription, right below Custom Words. Four default mappings are included ("hash sign", "hashsign", "at sign", "atsign"). When the mapped symbol is a special character (non-alphanumeric), trailing whitespace is consumed so that "at sign gofit" becomes `@gofit` rather than `@ gofit`.
+
+---
+
+*Everything below is from the original README.*
+
 # Handy
 
 [![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)](https://discord.com/invite/WVBeWsNXK4)
