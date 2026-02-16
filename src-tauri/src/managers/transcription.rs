@@ -1,4 +1,4 @@
-use crate::audio_toolkit::{apply_custom_words, filter_transcription_output};
+use crate::audio_toolkit::{apply_custom_words, apply_symbol_mappings, filter_transcription_output};
 use crate::managers::model::{EngineType, ModelManager};
 use crate::settings::{get_settings, ModelUnloadTimeout};
 use anyhow::Result;
@@ -498,7 +498,11 @@ impl TranscriptionManager {
             translation_note
         );
 
-        let final_result = filtered_result;
+        let final_result = if !settings.symbol_mappings.is_empty() {
+            apply_symbol_mappings(&filtered_result, &settings.symbol_mappings)
+        } else {
+            filtered_result
+        };
 
         if final_result.is_empty() {
             info!("Transcription result is empty");
