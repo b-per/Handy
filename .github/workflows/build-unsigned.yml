@@ -28,7 +28,7 @@ jobs:
         run: bun install
 
       - name: Build with Tauri
-        run: bun tauri build --target aarch64-apple-darwin
+        run: bun tauri build --target aarch64-apple-darwin --bundles dmg
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
