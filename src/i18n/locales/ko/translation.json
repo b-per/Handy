@@ -318,6 +318,14 @@
         "add": "추가",
         "remove": "{{word}} 제거",
         "duplicate": "\"{{word}}\"이(가) 이미 존재합니다"
+      },
+      "symbolMappings": {
+        "title": "Symbol Mappings",
+        "description": "Map spoken phrases to symbols. For example, saying \"hash sign\" will produce \"#\".",
+        "phrasePlaceholder": "Spoken phrase",
+        "symbolPlaceholder": "Symbol",
+        "add": "Add",
+        "remove": "Remove mapping for {{phrase}}"
       }
     },
     "postProcessing": {

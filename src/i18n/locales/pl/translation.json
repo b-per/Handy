@@ -318,6 +318,14 @@
         "add": "Dodaj",
         "remove": "Usuń {{word}}",
         "duplicate": "\"{{word}}\" już istnieje"
+      },
+      "symbolMappings": {
+        "title": "Symbol Mappings",
+        "description": "Map spoken phrases to symbols. For example, saying \"hash sign\" will produce \"#\".",
+        "phrasePlaceholder": "Spoken phrase",
+        "symbolPlaceholder": "Symbol",
+        "add": "Add",
+        "remove": "Remove mapping for {{phrase}}"
       }
     },
     "postProcessing": {
